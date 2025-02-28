@@ -1,8 +1,14 @@
-import { jsx as _jsx } from "react/jsx-runtime";
+// import { jsx as _jsx } from "react/jsx-runtime";
 import "./App.css";
-import { BrowserRouter } from "react-router-dom";
-import AppRoutes from "./Routes";
+// import { BrowserRouter } from "react-router-dom";
+// import AppRoutes from "./Routes";
+import HomePage from "./component/HomePage-component/HomePage";
 function App() {
-    return (_jsx(BrowserRouter, { children: _jsx(AppRoutes, {}) }));
-}
+    return (
+        <div class= "App">
+<HomePage/>
+        </div>
+    ) }
+
+
 export default App;
