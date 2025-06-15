@@ -8,25 +8,25 @@ function Login() {
   const navigate = useNavigate();
 
   async function handleSubmitFunc() {
-
-    const userInfo = {
-      email: email,
-      password: password,
-    };
-    console.log(userInfo);
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/authentication",
-        userInfo
-      );
-      if (response) {
-        navigate("/home");
-      } else {
-        alert("User not Found");
-      }
-    } catch (error) {
-      console.log("Error connecting to backend", error);
-    }
+    navigate("/home");
+    // const userInfo = {
+    //   email: email,
+    //   password: password,
+    // };
+    // console.log(userInfo);
+    // try {
+    //   const response = await axios.post(
+    //     "http://localhost:3000/authentication",
+    //     userInfo
+    //   );
+    //   if (response) {
+    //     navigate("/home");
+    //   } else {
+    //     alert("User not Found");
+    //   }
+    // } catch (error) {
+    //   console.log("Error connecting to backend", error);
+    // }
   }
 
   return (
