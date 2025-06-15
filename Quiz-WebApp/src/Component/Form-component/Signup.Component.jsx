@@ -1,82 +1,5 @@
-// import { useState } from "react";
-// import axios from "axios";
-// import { NavLink } from "react-router-dom";
-// import {
-//   H1,
-//   MainContainer,
-//   ElementsContainer,
-//   Button,
-//   ImageContainer,
-//   Span,
-// } from "./Signup.styled.jsx";
-
-// function SignUp() {
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-
-//   async function handleSubmitFunc() {
-//     console.log("clicked");
-//     const userInfo = { email, password };
-
-//     console.log(userInfo);
-
-//     try {
-//       await axios.post("http://localhost:3000/user/login", userInfo);
-//       console.log("data sent to backend");
-//     } catch (error) {
-//       console.log("error connecting to backend", error);
-//     }
-//   }
-
-//   return (
-//     <MainContainer>
-//       <ImageContainer className="imageContainer">
-//         <img
-//           src="https://w.wallhaven.cc/full/ey/wallhaven-eyrpo8.jpg"
-//           alt="login image"
-//         />
-//       </ImageContainer>
-//       <ElementsContainer>
-//          <span>
-//           <H1>Log in</H1>
-//           <Span>
-//             <p>Don't have an account?</p>
-//             {/* <NavLink to="/signup">Sign up</NavLink> */}
-//           </Span>
-//         </span>
-
-//         <input
-//           type="email"
-//           id="email"
-//           placeholder="Enter your email"
-//           onChange={(e) => setEmail(e.target.value)}
-//         />
-//         <input
-//           type="password"
-//           placeholder="Enter your password"
-//           id="password"
-//           onChange={(e) => setPassword(e.target.value)}
-//         />
-//         <Button onClick={handleSubmitFunc}>Login</Button>
-//       </ElementsContainer>
-
-//     </MainContainer>
-//   );
-// }
-
-// export default SignUp;
-
 import { useState } from "react";
 import axios from "axios";
-import {
-  H1,
-  ImageContainer,
-  MainContainer,
-  ElementsContainer,
-  NamesContainer,
-  Button,
-  Span,
-} from "./Signup.styled";
 import { NavLink, useNavigate } from "react-router-dom";
 
 function SignUp() {
@@ -93,24 +16,15 @@ function SignUp() {
       email: email,
       password: password,
     };
-    console.log(userInfo);
-
-    // setFirstName("");
-    // setLastName("");
-    // setEmail("");
-    // setPassword("");
 
     try {
-      console.log(userInfo);
       const response = await axios.post("http://localhost:3000/add", userInfo);
-      console.log(response)
       if (!response) {
         alert("User Not Found");
       }
       navigate("/home");
-      console.log("data sent to backend");
     } catch (error) {
-      console.log("error in database connection", error);
+      console.log("Error in database connection", error);
     }
   }
 
@@ -119,52 +33,94 @@ function SignUp() {
   }
 
   return (
-    <MainContainer>
-      <ImageContainer className="imageContainer">
-        <img
-          src="https://w.wallhaven.cc/full/ey/wallhaven-eyrpo8.jpg"
-          alt="image"
-        />
-      </ImageContainer>
-
-      <ElementsContainer>
-        <span>
-          <H1>Create an account</H1>
-          <Span>
-            <p>Already have an account?</p>
-            <NavLink to={"/"}>Log in</NavLink>
-          </Span>
-        </span>
-        <NamesContainer>
-          <input
-            type="text"
-            id="firstName"
-            placeholder="firstname"
-            onChange={(e) => handleInputChange(e, setFirstName)}
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-800 to-gray-900 flex items-center justify-center p-4">
+      <div className="w-full max-w-6xl bg-white/5 backdrop-blur-lg rounded-2xl shadow-2xl overflow-hidden border border-white/10 flex flex-col md:flex-row">
+        {/* Image Section */}
+        <div className="md:w-1/2 h-64 md:h-auto relative overflow-hidden">
+          <img
+            src="https://w.wallhaven.cc/full/ey/wallhaven-eyrpo8.jpg"
+            alt="Decorative background"
+            className="w-full h-full object-cover absolute inset-0"
           />
-          <input
-            type="text"
-            id="lastName"
-            placeholder="lastname"
-            onChange={(e) => handleInputChange(e, setLastName)}
-          />
-        </NamesContainer>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-8">
+            <div>
+              <h1 className="text-3xl font-bold text-white">Welcome to Quizzy</h1>
+              <p className="text-white/80 mt-2">Test your knowledge and challenge friends</p>
+            </div>
+          </div>
+        </div>
 
-        <input
-          type="email"
-          id="email"
-          placeholder="enter your email"
-          onChange={(e) => handleInputChange(e, setEmail)}
-        />
-        <input
-          type="password"
-          id="password"
-          placeholder="enter your password"
-          onChange={(e) => handleInputChange(e, setPassword)}
-        />
-        <Button onClick={handleCreateAccount}>Create account</Button>
-      </ElementsContainer>
-    </MainContainer>
+        {/* Form Section */}
+        <div className="md:w-1/2 p-8 sm:p-10 flex flex-col justify-center">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-white mb-2">Create an account</h1>
+            <div className="flex items-center gap-2">
+              <p className="text-white/70">Already have an account?</p>
+              <NavLink 
+                to="/" 
+                className="text-purple-300 hover:text-purple-200 font-medium transition-colors"
+              >
+                Log in
+              </NavLink>
+            </div>
+          </div>
+
+          <div className="space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="firstName" className="block text-white/80 mb-2">First name</label>
+                <input
+                  type="text"
+                  id="firstName"
+                  placeholder="John"
+                  onChange={(e) => handleInputChange(e, setFirstName)}
+                  className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                />
+              </div>
+              <div>
+                <label htmlFor="lastName" className="block text-white/80 mb-2">Last name</label>
+                <input
+                  type="text"
+                  id="lastName"
+                  placeholder="Doe"
+                  onChange={(e) => handleInputChange(e, setLastName)}
+                  className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="email" className="block text-white/80 mb-2">Email</label>
+              <input
+                type="email"
+                id="email"
+                placeholder="your@email.com"
+                onChange={(e) => handleInputChange(e, setEmail)}
+                className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-white/80 mb-2">Password</label>
+              <input
+                type="password"
+                id="password"
+                placeholder="••••••••"
+                onChange={(e) => handleInputChange(e, setPassword)}
+                className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+              />
+            </div>
+
+            <button
+              onClick={handleCreateAccount}
+              className="w-full py-3 px-6 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold rounded-lg shadow-lg hover:from-purple-700 hover:to-indigo-700 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-purple-500/30 mt-4"
+            >
+              Create account
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
