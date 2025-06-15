@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
-import quizQuestions from "./Questions";
+import quizQuestions from "./mock";
 import { useParams, useNavigate } from "react-router-dom";
 import Confetti from "react-confetti";
 
@@ -10,10 +10,11 @@ const Quiz = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const Category = useParams();
   const selectedCategory = Category.category;
-  const questions = quizQuestions[selectedCategory];
+  const allQuestions = quizQuestions[selectedCategory];
 
   // State management
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [usedQuestionIndices, setUsedQuestionIndices] = useState([]);
   const [timer, setTimer] = useState(30);
   const [selectedOption, setSelectedOption] = useState(null);
   const [score, setScore] = useState(0);
@@ -21,6 +22,14 @@ const Quiz = () => {
   const [isCorrect, setIsCorrect] = useState(null);
   const [shake, setShake] = useState(false);
   const [pulse, setPulse] = useState(false);
+
+  // Get 5 random unique questions
+  const getRandomQuestions = () => {
+    const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, 5);
+  };
+
+  const [questions, setQuestions] = useState([]);
 
   // Category icons mapping
   const categoryIcons = {
@@ -43,22 +52,19 @@ const Quiz = () => {
     } else if (timer === 0 && !selectedOption && !quizCompleted) {
       setTimeout(handleNextQuestion, 1000);
     }
-    if (score === 5) {
-      navigate("/winner");
-    }
-  }, [timer, quizCompleted, isStarted, score]);
+  }, [timer, quizCompleted, isStarted]);
 
   // Handle option selection
   const handleOptionSelect = (option) => {
     if (selectedOption || quizCompleted) return;
 
     setSelectedOption(option);
-    const correct = option === questions[currentQuestion].answer;
+    const correct = option === questions[currentQuestionIndex].answer;
     setIsCorrect(correct);
 
     if (correct) {
       setScore(score + 1);
-      if (score + 1 === questions.length) {
+      if (score + 1 === 5) {
         setShowConfetti(true);
       }
     } else {
@@ -70,8 +76,8 @@ const Quiz = () => {
   };
 
   const handleNextQuestion = () => {
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion((prev) => prev + 1);
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
       setSelectedOption(null);
       setIsCorrect(null);
       setTimer(30);
@@ -82,11 +88,15 @@ const Quiz = () => {
   };
 
   const handleStartQuiz = () => {
+    const randomQuestions = getRandomQuestions();
+    setQuestions(randomQuestions);
     setIsStarted(true);
   };
 
   const restartQuiz = () => {
-    setCurrentQuestion(0);
+    const randomQuestions = getRandomQuestions();
+    setQuestions(randomQuestions);
+    setCurrentQuestionIndex(0);
     setTimer(30);
     setSelectedOption(null);
     setScore(0);
@@ -99,7 +109,7 @@ const Quiz = () => {
     navigate("/home");
   };
 
-  if (quizCompleted) {
+  if (quizCompleted || score === 5) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-800 to-purple-900 p-4 relative overflow-hidden">
         {showConfetti && <Confetti recycle={false} numberOfPieces={500} />}
@@ -113,27 +123,21 @@ const Quiz = () => {
           </h1>
 
           <div className="text-8xl mb-6 animate-bounce">
-            {score === questions.length
-              ? "🏆"
-              : score > questions.length / 2
-              ? "🎯"
-              : "📚"}
+            {score === 5 ? "🏆" : score > 2 ? "🎯" : "📚"}
           </div>
 
           <div className="relative mb-8">
             <div
               className="radial-progress text-purple-400"
               style={{
-                "--value": (score / questions.length) * 100,
+                "--value": (score / 5) * 100,
                 "--size": "12rem",
                 "--thickness": "12px",
               }}
             >
-              <span className="text-3xl font-bold text-white">
-                {score}/{questions.length}
-              </span>
+              <span className="text-3xl font-bold text-white">{score}/5</span>
             </div>
-            {score === questions.length && (
+            {score === 5 && (
               <span className="text-xs absolute -bottom-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-3 py-1 rounded-full animate-pulse">
                 Perfect Score!
               </span>
@@ -141,9 +145,9 @@ const Quiz = () => {
           </div>
 
           <p className="text-xl mb-8 bg-gradient-to-r from-purple-200 to-blue-200 bg-clip-text text-transparent">
-            {score === questions.length
+            {score === 5
               ? "You're a genius! Flawless victory!"
-              : score > questions.length / 2
+              : score > 2
               ? "Impressive! You know your stuff!"
               : "Good effort! Keep learning!"}
           </p>
@@ -167,7 +171,7 @@ const Quiz = () => {
     );
   }
 
-  if (!isStarted) {
+  if (!isStarted || questions.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-800 to-purple-900 p-4 relative overflow-hidden">
         {/* Animated background elements */}
@@ -183,9 +187,7 @@ const Quiz = () => {
           </div>
 
           <div className="mb-8">
-            <p className="text-xl text-white/80 mb-4">
-              {questions.length} Questions
-            </p>
+            <p className="text-xl text-white/80 mb-4">5 Random Questions</p>
             <p className="text-lg text-white/60">30 seconds per question</p>
           </div>
 
@@ -200,7 +202,7 @@ const Quiz = () => {
     );
   }
 
-  const current = questions[currentQuestion];
+  const current = questions[currentQuestionIndex];
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-800 to-purple-900 p-4 relative overflow-hidden">
@@ -217,7 +219,7 @@ const Quiz = () => {
           <div
             className="h-full bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-500"
             style={{
-              width: `${((currentQuestion + 1) / questions.length) * 100}%`,
+              width: `${((currentQuestionIndex + 1) / 5) * 100}%`,
             }}
           ></div>
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-30"></div>
@@ -301,9 +303,7 @@ const Quiz = () => {
           </div>
 
           <div className="flex justify-between items-center text-white/70">
-            <div>
-              Question {currentQuestion + 1} of {questions.length}
-            </div>
+            <div>Question {currentQuestionIndex + 1} of 5</div>
             <div className="flex items-center">
               <span className="mr-2">Score:</span>
               <span className="font-bold text-white">{score}</span>

@@ -8,6 +8,7 @@ import {
   faShare,
   faHome,
 } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 import confetti from "canvas-confetti";
 import { Link } from "react-router-dom";
 
@@ -15,6 +16,11 @@ const WinnerPage = () => {
   const [name, setName] = useState("Ayaad");
   const [showFireworks, setShowFireworks] = useState(true);
 
+  async function getDetials() {
+    let res = await axios.get("http://localhost:3000/authentication");
+    console.log(res);
+  }
+  getDetials()
   // Enhanced confetti effects
   useEffect(() => {
     const duration = 3000;

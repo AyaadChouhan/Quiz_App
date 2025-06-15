@@ -1,22 +1,19 @@
 import { useState } from "react";
 import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
-
+// import moduleName from 'module'
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState();
   const navigate = useNavigate();
 
   async function handleSubmitFunc() {
-    // const userInfo = { email, password };
 
-       const userInfo = {
-      // firstname: firstName,
-      // lastname: lastName,
+    const userInfo = {
       email: email,
       password: password,
     };
-    console.log(userInfo)
+    console.log(userInfo);
     try {
       const response = await axios.post(
         "http://localhost:3000/authentication",
@@ -44,8 +41,12 @@ function Login() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-8">
             <div>
-              <h1 className="text-3xl font-bold text-white">Welcome Back to Quizzy</h1>
-              <p className="text-white/80 mt-2">Continue your knowledge journey</p>
+              <h1 className="text-3xl font-bold text-white">
+                Welcome Back to Quizzy
+              </h1>
+              <p className="text-white/80 mt-2">
+                Continue your knowledge journey
+              </p>
             </div>
           </div>
         </div>
@@ -56,8 +57,8 @@ function Login() {
             <h1 className="text-3xl font-bold text-white mb-2">Log in</h1>
             <div className="flex items-center gap-2">
               <p className="text-white/70">Don't have an account?</p>
-              <NavLink 
-                to="/signup" 
+              <NavLink
+                to="/signup"
                 className="text-purple-300 hover:text-purple-200 font-medium transition-colors"
               >
                 Sign Up
@@ -67,7 +68,9 @@ function Login() {
 
           <div className="space-y-5">
             <div>
-              <label htmlFor="email" className="block text-white/80 mb-2">Email</label>
+              <label htmlFor="email" className="block text-white/80 mb-2">
+                Email
+              </label>
               <input
                 type="email"
                 id="email"
@@ -78,7 +81,9 @@ function Login() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-white/80 mb-2">Password</label>
+              <label htmlFor="password" className="block text-white/80 mb-2">
+                Password
+              </label>
               <input
                 type="password"
                 id="password"
