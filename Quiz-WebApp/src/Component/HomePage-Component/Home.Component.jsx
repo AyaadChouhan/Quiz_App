@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function HomePage() {
   const navigate = useNavigate();
@@ -55,7 +55,7 @@ function HomePage() {
           <div className="md:col-span-1 space-y-4 text-center md:text-left">
             <h3 className="text-xl text-purple-300">Challenge your friends</h3>
             <p className="text-gray-300">
-              Invite your friends to play quiz game
+              Share with your friends to play quiz game
             </p>
             <button
               className="px-6 py-3 bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 
@@ -64,7 +64,7 @@ function HomePage() {
                               shadow-lg shadow-purple-500/30 hover:shadow-pink-500/40
                               transform hover:-translate-y-1"
             >
-              Start Now
+              <Link to="/quiz/Math">Start Now</Link>
             </button>
           </div>
 
