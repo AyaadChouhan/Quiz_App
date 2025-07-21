@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-
+import "./index.css";
 function HomePage() {
   const navigate = useNavigate();
   const [selectedQuiz, setSelectedQuiz] = useState(null);
@@ -49,22 +49,24 @@ function HomePage() {
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 pointer-events-none"></div>
 
       {/* Header Section */}
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden pt-10">
         <div className="relative z-10 container mx-auto px-4 py-0 grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
           {/* Text Content */}
-          <div className="md:col-span-1 space-y-4 text-center md:text-left">
+          <div className="md:col-span-1 space-y-6 text-center md:text-left">
             <h3 className="text-xl text-purple-300">Challenge your friends</h3>
             <p className="text-gray-300">
               Share with your friends to play quiz game
             </p>
             <button
+              // onClick={() => console.log("Navigate to /quiz/Math")}
+              onClick={() => handleQuizSelect("Math")}
               className="px-6 py-3 bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 
-                              bg-size-200 bg-pos-0 text-white rounded-lg font-bold 
-                              hover:bg-pos-100 transition-all duration-500 
-                              shadow-lg shadow-purple-500/30 hover:shadow-pink-500/40
-                              transform hover:-translate-y-1"
+             bg-size-200 bg-pos-0 text-white rounded-lg font-bold 
+             hover:bg-pos-100 transition-all duration-500 cursor-pointer
+             shadow-lg shadow-purple-500/30 hover:shadow-pink-500/40
+             transform hover:-translate-y-1"
             >
-              <Link to="/quiz/Math">Start Now</Link>
+              Start Now
             </button>
           </div>
 
@@ -135,7 +137,7 @@ function HomePage() {
 
       {/* Floating Particles Animation */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
+        {[...Array(40)].map((_, i) => (
           <div
             key={i}
             className="absolute rounded-full bg-purple-500/20"

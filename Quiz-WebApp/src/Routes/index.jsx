@@ -20,10 +20,10 @@ function AppRoutes() {
       path: ROUTES.QUIZ,
       element: <Quiz />,
     },
-    {
-      path: ROUTES.WINNER,
-      element: <WinnerPage />,
-    },
+    // {
+    //   path: ROUTES.WINNER,
+    //   element: <WinnerPage />,
+    // },
     {
       path: ROUTES.HOME,
       element: <HomePage />,
