@@ -18,7 +18,7 @@ function SignUp() {
     };
 
     try {
-      const response = await axios.post("http://localhost:3000/add", userInfo);
+      const response = await axios.post("http://localhost:3000/signup", userInfo);
       if (!response) {
         alert("User Not Found");
       }
